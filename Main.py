@@ -75,40 +75,50 @@ def keyboard_controller():
 
     def getSpeed(upTime,downTime):
         if downTime <= 0:
-            return upTime * 3
+            speed = upTime / 60
+            if speed > 100:
+                return 100
+            else:
+                return speed
         elif downTime <= 1000:
             return 0
         else:
-            return (downTime-1000) * 3
+            speed = (downTime-1000) / 60
+            if speed > 100:
+                return 100
+            else:
+                return speed
 
     def getAngle(leftTime,rightTime):
         return 90*(rightTime - leftTime)/5000
 
     while True: 
+	interval_ms = 500
+	interval_s = interval_ms / 1000
         try: 
             if keyboard.is_pressed(103): #UP 
-                speedTime = speedTime + 10
+                speedTime = speedTime + interval_ms
             else:
                 if speed > 0:
-                    speedTime = speedTime - 10
+                    speedTime = speedTime - interval_ms
 
             if keyboard.is_pressed(105): #LEFT
-                leftTime = leftTime + 10
+                leftTime = leftTime + interval_ms
             else:
                 if leftTime > 0:
-                    leftTime = leftTime - 10
+                    leftTime = leftTime - interval_ms
 
             if keyboard.is_pressed(106): #RIGHT
-                rightTime = rightTime + 10
+                rightTime = rightTime + interval_ms
             else:
                 if rightTime > 0: 
-                    rightTime = rightTime - 10
+                    rightTime = rightTime - interval_ms
 
             if keyboard.is_pressed(108): #DOWN
-                breakingTime = breakingTime + 10
+                breakingTime = breakingTime + interval_ms
             else:
                 if breakingTime > 0:
-                    brakingTime = breakingTime - 10
+                    brakingTime = breakingTime - interval_ms
 
             if keyboard.is_pressed('q'): #q
                 break
@@ -136,7 +146,7 @@ def keyboard_controller():
                     ledsController.lightGreen3()
             motorsController.turn(angle)
 
-            sleep(0.1)
+            sleep(0.5)
             pass
         except:
             pass
