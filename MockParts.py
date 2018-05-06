@@ -5,7 +5,7 @@ class MockEngine:
         self.name = name
 
     def forward(self):
-	logging.info(self.name + ": forward")
+	logging.info(self.name + ": forward (M)")
 
     def backward(self):
         logging.info(self.name + ": backward")

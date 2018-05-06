@@ -27,40 +27,40 @@ class LEDSController:
                     leds.light_led(i)
 
     def lightGreen1(self):
-	    self.light(1)
-
-    def lightGreen2(self):
-	    self.light(2)
-
-    def lightGreen3(self):
 	    self.light(3)
 
-    def lightBlue(self):
+    def lightGreen2(self):
+	    self.light(0)
+
+    def lightGreen3(self):
 	    self.light(4)
 
+    def lightBlue(self):
+	    self.light(1)
+
     def lightYellow(self):
-	    self.light(5)
+	    self.light(2)
 
     def lightRed(self):
-	    self.light(6)
+	    self.light(5)
 
     def downGreen1(self):
-	    self.down(1)
-
-    def downGreen2(self):
-	    self.down(2)
-
-    def downGreen3(self):
 	    self.down(3)
 
-    def downBlue(self):
+    def downGreen2(self):
+	    self.down(0)
+
+    def downGreen3(self):
 	    self.down(4)
 
+    def downBlue(self):
+	    self.down(1)
+
     def downYellow(self):
-	    self.down(5)
+	    self.down(2)
 
     def downRed(self):
-	    self.down(6)
+	    self.down(5)
 
     def light(self,num):
         logging.info("LED " + str(num) + ": on")

@@ -23,19 +23,22 @@ if args.config_path is not None:
     config = FileConfigFactory(args.config_path).getConfig()
 else:
     config = FileConfigFactory("./default_config.ini").getConfig()
-if args.mock_parts is not None:
+
+if args.mock_parts:
     factory = PartsFactory.MockPartsFactory()
 else:
     factory = PartsFactory.PartsFactory(config)
-if args.console_log_lvl is not None:
+
+if args.console_log_lvl:
     log_lvl = args.log_lvl.upper()
 else:
     log_lvl = 'DEBUG'.upper()
+
 if args.log_to_file is not None:
     logging.basicConfig(format='%(levelname)s %(asctime)s %(message)s',filename=args.log_to_file,level=log_lvl)
 else:
     logging.basicConfig(format='%(levelname)s %(asctime)s %(message)s',level=log_lvl)
-    
+
 motorsQueue = Queue()
 ledsQueue = Queue()
 
@@ -74,32 +77,34 @@ def keyboard_controller():
     breakingTime = 0
 
     def getSpeed(upTime,downTime):
+        print str(upTime) + "===" + str(downTime)
         if downTime <= 0:
-            speed = upTime / 60
-            if speed > 100:
+            tmpSpeed = upTime / 60
+            if tmpSpeed > 100:
                 return 100
             else:
-                return speed
+                return tmpSpeed
         elif downTime <= 1000:
             return 0
         else:
-            speed = (downTime-1000) / 60
-            if speed > 100:
+            tmpSpeed = (downTime-1000) / 60
+            if tmpSpeed > 100:
                 return 100
             else:
-                return speed
+                return tmpSpeed
 
     def getAngle(leftTime,rightTime):
-        return 90*(rightTime - leftTime)/5000
+        return 70*(rightTime - leftTime)/5000
 
-    while True: 
+    while True:
 	interval_ms = 500
 	interval_s = interval_ms / 1000
-        try: 
-            if keyboard.is_pressed(103): #UP 
-                speedTime = speedTime + interval_ms
+        try:
+            if keyboard.is_pressed(103): #UP
+                print "UP"
+		speedTime = speedTime + interval_ms
             else:
-                if speed > 0:
+                if speedTime > 0:
                     speedTime = speedTime - interval_ms
 
             if keyboard.is_pressed(105): #LEFT
@@ -111,7 +116,7 @@ def keyboard_controller():
             if keyboard.is_pressed(106): #RIGHT
                 rightTime = rightTime + interval_ms
             else:
-                if rightTime > 0: 
+                if rightTime > 0:
                     rightTime = rightTime - interval_ms
 
             if keyboard.is_pressed(108): #DOWN
@@ -146,9 +151,10 @@ def keyboard_controller():
                     ledsController.lightGreen3()
             motorsController.turn(angle)
 
-            sleep(0.5)
+            sleep(interval_s)
             pass
-        except:
+        except Exception, e:
+            logging.error(str(e))
             pass
 
 def camera_controller():

@@ -1,12 +1,12 @@
 from multiprocessing import Process, Queue
 import PartsFactory
-        
+
 class MotorsController:
     def __init__(self,factory,queue):
         self.queue = queue
         self.factory = factory
         self.process = None
-       
+
     def loop(self,partsFactory,queue):
         l_engine = partsFactory.getLeftEngine()
         r_engine = partsFactory.getRightEngine()
@@ -39,17 +39,17 @@ class MotorsController:
 
     def forward(self,speed):
         self.queue.put(("f",speed))
-    
+
     def backward(self,speed):
         self.queue.put(("b",speed))
 
     def turn(self,angle):
         self.queue.put(("s",angle))
-	    
+
     def start(self):
         self.process = Process(target=self.loop, args =(self.factory,self.queue))
         self.process.start()
-        
+
     def stop(self):
        self.queue.put(("q",9))
        self.process.join()

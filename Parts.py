@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import logging
 
 class Engine:
     def __init__(self, in1_pin, in2_pin, enable_pin, name):
@@ -16,19 +17,19 @@ class Engine:
         self.pwm.start(0)
 
     def forward(self):
-	logging.info(self.name + ": forward")
+	logging.info(self.name + ": forward (R)")
         GPIO.output(self.in1_pin, GPIO.HIGH)
         GPIO.output(self.in2_pin, GPIO.LOW)
 	GPIO.output(self.enable_pin, GPIO.HIGH)
 
     def backward(self):
-	logging.info(self.name + ": backward")
+	logging.info(self.name + ": backward (R)")
         GPIO.output(self.in1_pin, GPIO.LOW)
         GPIO.output(self.in2_pin, GPIO.HIGH)
 
     def changeSpeed(self,speed):
-	logging.info(self.name + ": speed" + str(speed))
-        self.pwm.ChangeDutyCycle(speed*10)
+	logging.info(self.name + ": speed (R)" + str(speed))
+        self.pwm.ChangeDutyCycle(speed)
 
 class Servo:
     def __init__(self,in_pin):
@@ -39,6 +40,7 @@ class Servo:
 
     def update(self,angle):
 	logging.info("SERVO: angle " + str(angle))
+	angle = 90 + angle
         self.pwm.ChangeDutyCycle(float(angle) / 10.0 + 2.5)
 
 class LED:

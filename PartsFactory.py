@@ -5,12 +5,12 @@ import Parts
 class PartsFactory:
     def __init__(self, config):
         self.config = config
-    
+
     def getLeftEngine(self):
-        return Parts.Engine(self.config.l_engine_in_1_pin, self.config.l_engine_in_2_pin, self.config.l_engine_enable_pin)
+        return Parts.Engine(self.config.l_engine_in_1_pin, self.config.l_engine_in_2_pin, self.config.l_engine_enable_pin,"LEFT ENGINE")
 
     def getRightEngine(self):
-        return Parts.Engine(self.config.r_engine_in_1_pin, self.config.r_engine_in_2_pin, self.config.r_engine_enable_pin)
+        return Parts.Engine(self.config.r_engine_in_1_pin, self.config.r_engine_in_2_pin, self.config.r_engine_enable_pin,"RIGHT ENGINE")
 
     def getServo(self):
         return Parts.Servo(self.config.servo_in_pin)
